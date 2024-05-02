@@ -87,6 +87,7 @@ class BaseCard(BaseEntity):
         data["progress"] = self.progress
         data["progress_total"] = self.progress_total
         data["zone"] = int(self.zone)
+        data["controller"] = self.controller.entity_id
         return data
 
     def dump_hidden(self):
