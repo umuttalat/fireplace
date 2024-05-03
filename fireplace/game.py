@@ -361,10 +361,7 @@ class BaseGame(Entity):
         self.manager.turn(player)
         return ret
 
-    def _begin_turn(self, player: "Player"):
-        self.manager.step(self.next_step, Step.MAIN_START)
-        self.manager.step(self.next_step, Step.MAIN_ACTION)
-
+    def _begin_turn_refresh(self, player: "Player"):
         for p in self.players:
             p.cards_drawn_this_turn = 0
 
@@ -396,8 +393,13 @@ class BaseGame(Entity):
 
         for character in self.characters:
             character.num_attacks = 0
+            character.damaged_last_turn = character.damaged_this_turn
             character.damaged_this_turn = 0
             character.healed_this_turn = 0
+
+    def _begin_turn(self, player: "Player"):
+        self.manager.step(self.next_step, Step.MAIN_START)
+        self.manager.step(self.next_step, Step.MAIN_ACTION)
 
         player.draw()
         self.manager.step(self.next_step, Step.MAIN_END)

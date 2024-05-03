@@ -141,6 +141,7 @@ OVERLOAD_OWED = AttrValue(GameTag.OVERLOAD_OWED)
 CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
 DAMAGED_THIS_TURN = AttrValue(enums.DAMAGED_THIS_TURN)
+DAMAGED_LAST_TURN = AttrValue(enums.DAMAGED_LAST_TURN)
 NUM_ATTACKS = AttrValue("num_attacks")
 MAX_HAND_SIZE = AttrValue("max_hand_size")
 

@@ -143,7 +143,7 @@ class YOD_014:
         PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
         PlayReq.REQ_MINION_TARGET: 0,
     }
-    play = Hit(TARGET, ATK(SELF))
+    play = Hit(TARGET, ATK(TARGET))
 
 
 class YOD_015:

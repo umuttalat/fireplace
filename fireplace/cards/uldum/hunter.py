@@ -55,7 +55,9 @@ class ULD_152:
     """Pressure Plate"""
 
     # <b>Secret:</b> After your opponent casts a spell, destroy a random enemy_minion.
-    secret = Play(OPPONENT, SPELL).after(Reveal(SELF), Destroy(RANDOM_ENEMY_MINION))
+    secret = Play(OPPONENT, SPELL).after(
+        Find(ENEMY_MINIONS) & (Reveal(SELF), Destroy(RANDOM_ENEMY_MINION))
+    )
 
 
 class ULD_155:

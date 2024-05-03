@@ -127,6 +127,10 @@ class BuffableEntity(BaseEntity):
             self.log("Clearing buffs from %r", self)
             for buff in self.buffs[:]:
                 buff.remove()
+        if self.data and self.data.tags:
+            self.tags.update(self.data.tags)
+            if getattr(self, "custom_card", False):
+                self.create_custom_card(self)
 
 
 class Entity(BuffableEntity):

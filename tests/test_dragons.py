@@ -121,7 +121,7 @@ def test_envoy_of_lazul():
 
 def test_murozond_the_infinite():
     game = prepare_empty_game()
-    game.player1.give(WISP).play()
+    wisp = game.player1.give(WISP).play()
     game.player1.give("DS1_233").play()
     game.player1.give("ICC_481").play()
     game.end_turn()

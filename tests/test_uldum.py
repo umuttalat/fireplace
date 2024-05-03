@@ -80,3 +80,12 @@ def test_corrupt_the_waters():
     minion.destroy()
     game.skip_turn()
     assert not game.player1.extra_battlecries
+
+
+def test_sunstruck_henchman():
+    game = prepare_empty_game()
+    henchman = game.player1.give("ULD_180").play()
+    game.skip_turn()
+    while henchman.can_attack():
+        game.skip_turn()
+    assert not henchman.can_attack()

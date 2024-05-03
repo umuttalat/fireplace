@@ -315,6 +315,16 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
         self.custom_card = False
         super().__init__(data)
 
+    def clear_buffs(self):
+        self.cant_play = False
+        self.entourage = CardList(self.data.entourage)
+        self.has_battlecry = False
+        self.has_combo = False
+        self.overload = 0
+        self.rarity = Rarity.INVALID
+        self.choose_cards = CardList()
+        super().clear_buffs()
+
     def dump(self):
         data = super().dump()
         data["rarity"] = int(self.rarity)
@@ -759,8 +769,15 @@ class LiveEntity(PlayableCard, Entity):
         self.turns_in_play = 0
         self.turn_killed = -1
         self.damaged_this_turn = 0
+        self.damaged_last_turn = 0
         self.healed_this_turn = 0
         self.additional_deathrattles = []
+
+    def clear_buffs(self):
+        self._to_be_destroyed = False
+        self.forgetful = False
+        self.additional_deathrattles = []
+        super().clear_buffs()
 
     def dump(self):
         data = super().dump()
@@ -870,6 +887,11 @@ class Character(LiveEntity):
         data["race"] = int(self.race)
         data["can_attack"] = self.can_attack()
         return data
+
+    def clear_buffs(self):
+        self._frozen = False
+        self.race = Race.INVALID
+        super().clear_buffs()
 
     @property
     def events(self):
@@ -1149,6 +1171,17 @@ class Minion(Character):
         self.reborn = False
         super().__init__(data)
 
+    def clear_buffs(self):
+        self.always_wins_brawls = False
+        self.divine_shield = False
+        self.enrage = False
+        self.silenced = False
+        self._summon_index = None
+        self.dormant = False
+        self.dormant_turns = self.data.scripts.dormant_turns
+        self.reborn = False
+        super().clear_buffs()
+
     def dump(self):
         data = super().dump()
         data["has_inspire"] = self.has_inspire
@@ -1242,8 +1275,14 @@ class Minion(Character):
         if self.zone == Zone.PLAY:
             self.log("%r is removed from the field", self)
             self.controller.field.remove(self)
-            if self.damage:
-                self.damage = 0
+            self.damage = 0
+            self.predamage = 0
+            self.num_attacks = 0
+            self.turns_in_play = 0
+            self.turn_killed = -1
+            self.damaged_this_turn = 0
+            self.damaged_last_turn = 0
+            self.healed_this_turn = 0
 
         super()._set_zone(value)
 
