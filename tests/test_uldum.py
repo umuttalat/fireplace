@@ -47,7 +47,7 @@ def test_evil_recruiter():
     assert lackey in recruiter.targets
 
 
-def test_BEEEES():
+def test_beeees():
     game = prepare_game()
     wisp = game.player1.give(WISP).play()
     mech = game.player1.give(MECH).play()
@@ -58,3 +58,25 @@ def test_BEEEES():
     game.player2.give("ULD_134").play(target=wisp)
     assert wisp.dead
     assert game.player2.field == ["ULD_134t"] * 3
+
+
+def test_corrupt_the_waters():
+    game = prepare_empty_game()
+    game.player1.give("ULD_291").play()
+    for _ in range(6):
+        minion = game.player1.give("CS2_189").play(target=game.player2.hero)
+        minion.destroy()
+    assert game.player1.hero.power == "ULD_291p"
+    game.skip_turn()
+    assert not game.player1.extra_battlecries
+    game.player1.hero.power.use()
+    assert game.player1.extra_battlecries
+    assert game.player2.hero.health == 24
+    minion = game.player1.give("CS2_189").play(target=game.player2.hero)
+    minion.destroy()
+    assert game.player2.hero.health == 22
+    minion = game.player1.give("CS2_189").play(target=game.player2.hero)
+    assert game.player2.hero.health == 20
+    minion.destroy()
+    game.skip_turn()
+    assert not game.player1.extra_battlecries
