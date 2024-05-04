@@ -841,10 +841,6 @@ class GenericChoice(Choice):
                     _card.zone = Zone.PLAY
                 elif len(self.player.hand) < self.player.max_hand_size:
                     _card.zone = Zone.HAND
-                else:
-                    _card.discard()
-            else:
-                _card.discard()
 
 
 class CopyDeathrattleBuff(TargetedAction):
