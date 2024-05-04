@@ -89,3 +89,11 @@ def test_sunstruck_henchman():
     while henchman.can_attack():
         game.skip_turn()
     assert not henchman.can_attack()
+
+
+def test_bazaar_burglary():
+    game = prepare_empty_game(CardClass.ROGUE, CardClass.ROGUE)
+    quest = game.player1.give("ULD_326").play()
+    assert quest.progress == 0
+    game.player1.give(MOONFIRE)
+    assert quest.progress == 1

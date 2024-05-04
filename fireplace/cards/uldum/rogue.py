@@ -72,7 +72,7 @@ class ULD_326:
     # [x]<b>Quest:</b> Add 4 cards from other classes to your hand. <b>Reward: </b>Ancient
     # Blades.
     progress_total = 4
-    quest = Give(CONTROLLER, ANOTHER_CLASS).after(AddProgress(SELF, Give.CARD))
+    quest = Give(CONTROLLER, OTHER_CLASS_CHARACTER).after(AddProgress(SELF, Give.CARD))
     reward = Summon(CONTROLLER, "ULD_326p")
 
 

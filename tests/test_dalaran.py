@@ -290,3 +290,13 @@ def test_duel():
         game3.player2.summon(WISP)
     duel = game3.player1.give("DAL_731")
     assert not duel.is_playable()
+
+
+def test_vendetta():
+    game = prepare_empty_game(CardClass.ROGUE, CardClass.ROGUE)
+    vendetta = game.player1.give("DAL_716")
+    assert vendetta.cost == 4
+    moonfire = game.player1.give(MOONFIRE)
+    assert vendetta.cost == 0
+    moonfire.play(target=game.player2.hero)
+    assert vendetta.cost == 4

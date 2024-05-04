@@ -264,3 +264,11 @@ def test_zzeraku_the_warpe():
     game.player1.give("DRG_209").play()
     assert game.player1.hero.health == 5
     assert game.player1.field == [WISP, "CFM_900", "DRG_209"] + ["DRG_209t"] * 4
+
+
+def test_invoke_twice():
+    game = prepare_game()
+    game.player1.give("DRG_303").play()
+    game.player1.give("DRG_303").play()
+    game.player1.give("DRG_019").play()
+    assert game.player1.field == ["DRG_303", "DRG_303", "DRG_019", "DRG_019", "DRG_019"]
