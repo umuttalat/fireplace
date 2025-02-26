@@ -38,7 +38,7 @@ class DRG_231:
     # your hand.
     powered_up = -Find(FRIENDLY_DECK + NEUTRAL)
     play = powered_up & Give(
-        CONTROLLER, RandomCollectible(card_class=CardClass.PALADIN)
+        CONTROLLER, RandomCollectible(card_class=CardClass.PALADIN) * 5
     )
 
 
@@ -112,6 +112,6 @@ class DRG_258:
     # with <b>Taunt</b>.
     progress_total = 1
     sidequest = OWN_TURN_BEGIN.on(
-        (DAMAGED_THIS_TURN(FRIENDLY_HERO) == 0) & AddProgress(SELF, SELF)
+        (DAMAGED_LAST_TURN(FRIENDLY_HERO) == 0) & AddProgress(SELF, SELF)
     )
     reward = Summon(CONTROLLER, "DRG_258t")

@@ -121,7 +121,7 @@ def test_envoy_of_lazul():
 
 def test_murozond_the_infinite():
     game = prepare_empty_game()
-    game.player1.give(WISP).play()
+    wisp = game.player1.give(WISP).play()
     game.player1.give("DS1_233").play()
     game.player1.give("ICC_481").play()
     game.end_turn()
@@ -264,3 +264,11 @@ def test_zzeraku_the_warpe():
     game.player1.give("DRG_209").play()
     assert game.player1.hero.health == 5
     assert game.player1.field == [WISP, "CFM_900", "DRG_209"] + ["DRG_209t"] * 4
+
+
+def test_invoke_twice():
+    game = prepare_game()
+    game.player1.give("DRG_303").play()
+    game.player1.give("DRG_303").play()
+    game.player1.give("DRG_019").play()
+    assert game.player1.field == ["DRG_303", "DRG_303", "DRG_019", "DRG_019", "DRG_019"]

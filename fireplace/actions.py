@@ -292,6 +292,7 @@ class BeginTurn(GameAction):
         source.manager.step(source.next_step, Step.MAIN_START_TRIGGERS)
         source.manager.step(source.next_step, source.next_step)
         source.game.manager.game_action(self, source, player)
+        source._begin_turn_refresh(player)
         self.broadcast(source, EventListener.ON, player)
         source._begin_turn(player)
 
@@ -840,10 +841,6 @@ class GenericChoice(Choice):
                     _card.zone = Zone.PLAY
                 elif len(self.player.hand) < self.player.max_hand_size:
                     _card.zone = Zone.HAND
-                else:
-                    _card.discard()
-            else:
-                _card.discard()
 
 
 class CopyDeathrattleBuff(TargetedAction):

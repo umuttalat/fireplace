@@ -307,3 +307,14 @@ def test_sweeping_strikes():
     wisp.attack(dummies[1])
     for i in range(3):
         assert dummies[i].health == 1
+
+
+def test_vendetta():
+    game = prepare_empty_game(CardClass.ROGUE, CardClass.ROGUE)
+    vendetta = game.player1.give("DAL_716")
+    assert vendetta.cost == 4
+    moonfire = game.player1.give(MOONFIRE)
+    assert vendetta.cost == 0
+    moonfire.play(target=game.player2.hero)
+    assert vendetta.cost == 4
+

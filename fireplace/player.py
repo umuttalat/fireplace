@@ -8,7 +8,7 @@ from .actions import Concede, Draw, Fatigue, Give, Hit, SpendMana, Steal, Summon
 from .aura import TargetableByAuras
 from .card import Card
 from .deck import Deck
-from .entity import Entity, slot_property
+from .entity import Entity, boolean_property, int_property
 from .managers import PlayerManager
 from .utils import CardList
 
@@ -20,24 +20,24 @@ if TYPE_CHECKING:
 
 class Player(Entity, TargetableByAuras):
     Manager = PlayerManager
-    all_targets_random = slot_property("all_targets_random")
-    cant_overload = slot_property("cant_overload")
-    choose_both = slot_property("choose_both")
-    extra_battlecries = slot_property("extra_battlecries")
-    extra_trigger_secret = slot_property("extra_trigger_secret")
-    minion_extra_battlecries = slot_property("minion_extra_battlecries")
-    minion_extra_combos = slot_property("minion_extra_combos")
-    extra_deathrattles = slot_property("extra_deathrattles")
-    extra_end_turn_effect = slot_property("extra_end_turn_effect")
-    healing_double = slot_property("healing_double", sum)
-    hero_power_double = slot_property("hero_power_double", sum)
-    healing_as_damage = slot_property("healing_as_damage")
-    shadowform = slot_property("shadowform")
-    spellpower_double = slot_property("spellpower_double", sum)
-    spellpower_adjustment = slot_property("spellpower", sum)
-    heropower_damage_adjustment = slot_property("heropower_damage", sum)
-    spells_cost_health = slot_property("spells_cost_health")
-    murlocs_cost_health = slot_property("murlocs_cost_health")
+    all_targets_random = boolean_property("all_targets_random")
+    cant_overload = boolean_property("cant_overload")
+    choose_both = boolean_property("choose_both")
+    extra_battlecries = boolean_property("extra_battlecries")
+    extra_trigger_secret = boolean_property("extra_trigger_secret")
+    minion_extra_battlecries = boolean_property("minion_extra_battlecries")
+    minion_extra_combos = boolean_property("minion_extra_combos")
+    extra_deathrattles = boolean_property("extra_deathrattles")
+    extra_end_turn_effect = boolean_property("extra_end_turn_effect")
+    healing_double = int_property("healing_double")
+    hero_power_double = int_property("hero_power_double")
+    healing_as_damage = boolean_property("healing_as_damage")
+    shadowform = boolean_property("shadowform")
+    spellpower_double = int_property("spellpower_double")
+    spellpower_adjustment = int_property("spellpower")
+    heropower_damage_adjustment = int_property("heropower_damage")
+    spells_cost_health = boolean_property("spells_cost_health")
+    murlocs_cost_health = boolean_property("murlocs_cost_health")
     type = CardType.PLAYER
 
     def __init__(self, name, deck: list[str], hero: str, is_standard=True):

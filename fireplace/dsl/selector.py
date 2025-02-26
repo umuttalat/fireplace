@@ -141,6 +141,7 @@ OVERLOAD_OWED = AttrValue(GameTag.OVERLOAD_OWED)
 CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
 DAMAGED_THIS_TURN = AttrValue(enums.DAMAGED_THIS_TURN)
+DAMAGED_LAST_TURN = AttrValue(enums.DAMAGED_LAST_TURN)
 NUM_ATTACKS = AttrValue("num_attacks")
 MAX_HAND_SIZE = AttrValue("max_hand_size")
 
@@ -573,23 +574,23 @@ DAMAGED_CHARACTERS = ALL_CHARACTERS + DAMAGED
 CTHUN = FRIENDLY + ID("OG_280")
 
 FRIENDLY_CLASS_CHARACTER = FuncSelector(
-    lambda entities, src: [
+    lambda entities, source: [
         e
         for e in entities
-        if hasattr(e, "card_class")
+        if hasattr(e, "classes")
         and hasattr(e, "controller")
-        and e.card_class == e.controller.hero.card_class
+        and e.controller.hero.card_class in e.classes
     ]
 )
 OTHER_CLASS_CHARACTER = FuncSelector(
-    lambda entities, src: [
+    lambda entities, source: [
         e
         for e in entities
-        if hasattr(e, "card_class")
+        if hasattr(e, "classes")
         and hasattr(e, "controller")
         and e.card_class != CardClass.NEUTRAL
         and e.card_class != CardClass.DREAM
-        and e.card_class != e.controller.hero.card_class
+        and e.controller.hero.card_class not in e.classes
     ]
 )
 
@@ -654,7 +655,19 @@ ENTOURAGE = FuncSelector(lambda entities, source: source.entourage)
 
 ANOTHER_CLASS = FuncSelector(
     lambda entities, source: [
-        card_class for card_class in CardClass if source.card_class != card_class
+        card_class for card_class in [
+            CardClass.DEATHKNIGHT,
+            CardClass.DRUID,
+            CardClass.HUNTER,
+            CardClass.MAGE,
+            CardClass.PALADIN,
+            CardClass.PRIEST,
+            CardClass.ROGUE,
+            CardClass.SHAMAN,
+            CardClass.WARLOCK,
+            CardClass.WARRIOR,
+            CardClass.DEMONHUNTER,
+        ] if source.card_class != card_class
     ]
 )
 

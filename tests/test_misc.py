@@ -200,6 +200,28 @@ def test_copy_deathrattle_with_store_card():
     assert game.player1.hand == ["CS2_092"] * 4
 
 
+def test_clear_buff():
+    game = prepare_empty_game()
+    wisp = game.player1.give(WISP).play()
+    assert not wisp.divine_shield
+    assert wisp.atk == 1
+    game.player1.give("EX1_371").play(target=wisp)
+    game.player1.give("CS2_087").play(target=wisp)
+    assert wisp.divine_shield
+    assert wisp.atk == 4
+    game.player1.give("EX1_049").play(target=wisp)
+    assert not wisp.divine_shield
+    assert wisp.atk == 1
+
+
+def test_morph_on_turn_begin():
+    game = prepare_empty_game()
+    game.player1.give("DRG_224t").play()
+    game.skip_turn()
+    assert game.player1.field[0] == "DRG_224t2"
+    assert not game.player1.field[0].can_attack()
+
+
 def test_observer():
     class Manager(BaseObserver):
         def __init__(self, game) -> None:

@@ -118,25 +118,23 @@ class BuffableEntity(BaseEntity):
             i = slot._getattr(attr, i)
         if self.ignore_scripts:
             return i
-        return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
+        if self.data and self.data.scripts:
+            return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
+        return i
 
     def clear_buffs(self):
         if self.buffs:
             self.log("Clearing buffs from %r", self)
             for buff in self.buffs[:]:
                 buff.remove()
+        if self.data and self.data.tags:
+            self.tags.update(self.data.tags)
+            if getattr(self, "custom_card", False):
+                self.create_custom_card(self)
 
 
 class Entity(BuffableEntity):
     pass
-
-
-def slot_property(attr, f=any):
-    @property
-    def func(self):
-        return f(getattr(slot, attr, False) for slot in self.slots)
-
-    return func
 
 
 def boolean_property(attr):
@@ -146,7 +144,11 @@ def boolean_property(attr):
             getattr(self, "_" + attr, False)
             or (any(getattr(buff, attr, False) for buff in self.buffs))
             or (any(getattr(slot, attr, False) for slot in self.slots))
-            or (getattr(self.data.scripts, attr, lambda s, x: x)(self, False))
+            or (
+                getattr(self.data.scripts, attr, lambda s, x: x)(self, False)
+                if self.data and self.data.scripts
+                else False
+            )
         )
 
     @func.setter

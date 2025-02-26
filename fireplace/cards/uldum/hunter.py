@@ -17,7 +17,7 @@ class ULD_154:
 
     # [x]<b>Battlecry:</b> If you control a <b>Secret</b>, summon two 2/2 Hyenas.
     powered_up = Find(FRIENDLY_SECRETS)
-    play = powered_up & Summon(CONTROLLER, "ULD_154t") * 2
+    play = powered_up & SummonBothSides(CONTROLLER, "ULD_154t") * 2
 
 
 class ULD_156:
@@ -55,7 +55,9 @@ class ULD_152:
     """Pressure Plate"""
 
     # <b>Secret:</b> After your opponent casts a spell, destroy a random enemy_minion.
-    secret = Play(OPPONENT, SPELL).after(Reveal(SELF), Destroy(RANDOM_ENEMY_MINION))
+    secret = Play(OPPONENT, SPELL).after(
+        Find(ENEMY_MINIONS) & (Reveal(SELF), Destroy(RANDOM_ENEMY_MINION))
+    )
 
 
 class ULD_155:

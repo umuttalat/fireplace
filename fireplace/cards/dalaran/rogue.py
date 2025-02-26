@@ -34,7 +34,7 @@ class DAL_714:
 
     # [x]<b>Battlecry:</b> If you're holding a card from another class, _gain +1/+1 and
     # <b><b>Rush</b>.</b>
-    powered_up = Find(FRIENDLY_HAND + ANOTHER_CLASS)
+    powered_up = Find(FRIENDLY_HAND + OTHER_CLASS_CHARACTER)
     play = powered_up & Buff(SELF, "DAL_714e")
 
 
@@ -137,7 +137,7 @@ class DAL_716:
     play = Hit(TARGET, 4)
 
     class Hand:
-        update = Find(FRIENDLY_HAND + ANOTHER_CLASS) & Refresh(
+        update = Find(FRIENDLY_HAND - SELF + OTHER_CLASS_CHARACTER) & Refresh(
             SELF, {GameTag.COST: SET(0)}
         )
 
